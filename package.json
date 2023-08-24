@@ -1,0 +1,17 @@
+{
+  "name": "forkify",
+  "version": "1.0.0",
+  "description": "Recipe Application",
+  "scripts": {
+    "start": "parcel index.html",
+    "buid": "parcel buid index.html"
+  },
+  "author": "Hiru Senevirathna",
+  "license": "ISC",
+  "dependencies": {
+    "parcel": "^2.9.3"
+  },
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.9.3"
+  }
+}
