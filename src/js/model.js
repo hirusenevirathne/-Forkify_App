@@ -41,7 +41,7 @@ export const loadSearchResults = async function (query) {
   try {
     state.search.query = query; // set query
     const data = await getJSON(`${URL_API}?search=${query}`); // get data
-    console.log(data);
+    //console.log(data);
 
     state.search.results = data.data.recipes.map(rec => {
       return {
