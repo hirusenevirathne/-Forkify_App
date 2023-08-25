@@ -5,6 +5,8 @@ import { Fraction } from 'fractional'; // import fractional
 class RecipeView {
   #perentElement = document.querySelector('.recipe'); // select element
   #data; // declare data
+  #errorMessage = 'We could not find that recipe. Please try another one!'; // declare error message
+  #message = ''; // declare message
 
   render(data) {
     this.#data = data; // set data
@@ -22,9 +24,35 @@ class RecipeView {
           <use href="${icons}#icon-loader"></use>
         </svg>
       </div>`;
-    this.#perentElement.innerHTML = '';
+    this.#clear; // clear recipe container
     this.#perentElement.insertAdjacentHTML('afterbegin', markup);
   };
+
+  renderError(massage = this.#errorMessage) {
+    const markup = `<div class="error">
+    <div>
+          <svg>
+           <use href="${icons}#icon-alert-triangle"></use>
+         </svg>
+     </div>
+        <p>${massage}</p>
+     </div>`;
+    this.#clear; // clear recipe container
+    this.#perentElement.insertAdjacentHTML('afterbegin', markup);
+  }
+
+  renderMessage(massage = this.#message) {
+    const markup = `<div class="message">
+    <div>
+          <svg>
+           <use href="${icons}#icon-smile"></use>
+         </svg>
+     </div>
+        <p>${massage}</p>
+     </div>`;
+    this.#clear; // clear recipe container
+    this.#perentElement.insertAdjacentHTML('afterbegin', markup);
+  }
 
   addHandlerRender(handler) {
     ['hashchange', 'load'].forEach(ev => window.addEventListener(ev, handler)); // call function to show recipe on load and hashchange
