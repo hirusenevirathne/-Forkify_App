@@ -1,4 +1,6 @@
 import 'regenerator-runtime/runtime'; // polyfill async await (Parcel 2) Run on old browsers
+import { URL_API } from './config';
+import { getJSON } from './helpers.js';
 
 export const state = {
   recipe: {},
@@ -6,14 +8,8 @@ export const state = {
 
 export const loadRecipe = async function (id) {
   try {
-    // 01) Loading recipe
-    const res = await fetch(
-      // fetch data
-      `https://forkify-api.herokuapp.com/api/v2/recipes/${id}`
-    );
-    const data = await res.json(); // convert to json
-
-    if (!res.ok) throw new Error(`${data.message} (${res.status})`); // throw error if not ok
+    const data = await getJSON(`${URL_API}/${id}`); // get data
+    //console.log(data);
 
     const { recipe } = data.data; // destructure data
     state.recipe = {
@@ -32,6 +28,7 @@ export const loadRecipe = async function (id) {
     //console.log(res);
     //console.log(data);
   } catch (error) {
-    alert(error);
+    //alert(error);
+    console.log(`${error} 💥💥💥`);
   }
 };

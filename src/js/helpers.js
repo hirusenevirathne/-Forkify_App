@@ -1,0 +1,24 @@
+import { async } from 'regenerator-runtime';
+import { TIMEOUT_SEC } from './config.js';
+
+// Time out Promice
+const timeout = function (s) {
+  return new Promise(function (_, reject) {
+    setTimeout(function () {
+      reject(new Error(`Request took too long! Timeout after ${s} second`));
+    }, s * 1000);
+  });
+};
+
+// Fetch API
+export const getJSON = async function (url) {
+  try {
+    // 01) Loading recipe
+    const res = await Promise.race([fetch(url), timeout(TIMEOUT_SEC)]); // fetch data and time out
+    const data = await res.json(); // convert to json
+    if (!res.ok) throw new Error(`${data.message} (${res.status})`); // throw error if not ok
+    return data; // return data
+  } catch (err) {
+    throw err;
+  }
+};
