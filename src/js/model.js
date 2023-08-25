@@ -4,6 +4,10 @@ import { getJSON } from './helpers.js';
 
 export const state = {
   recipe: {},
+  search: {
+    query: '',
+    results: [],
+  },
 };
 
 export const loadRecipe = async function (id) {
@@ -32,3 +36,25 @@ export const loadRecipe = async function (id) {
     throw error;
   }
 };
+
+export const loadSearchResults = async function (query) {
+  try {
+    state.search.query = query; // set query
+    const data = await getJSON(`${URL_API}?search=${query}`); // get data
+    console.log(data);
+
+    state.search.results = data.data.recipes.map(rec => {
+      return {
+        id: rec.id,
+        title: rec.title,
+        publisher: rec.publisher,
+        image: rec.image_url,
+      };
+    });
+    //console.log(state.search.results);
+  } catch (error) {
+    //console.log(error);
+    throw error;
+  }
+};
+//loadSearchResults('pizza');
