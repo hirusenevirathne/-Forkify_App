@@ -9,7 +9,9 @@
   "author": "Hiru Senevirathna",
   "license": "ISC",
   "dependencies": {
-    "parcel": "^2.9.3"
+    "core-js": "^3.32.1",
+    "parcel": "^2.9.3",
+    "regenerator-runtime": "^0.14.0"
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.9.3"
