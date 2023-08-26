@@ -2,6 +2,7 @@ import * as model from './model.js'; // import model
 import recipeView from './views/recipeView.js'; // import recipeView
 import SearchView from './views/searchView.js'; // import searchView
 import resultsView from './views/resultsView.js'; // import resultsView
+import paginationView from './views/paginationView.js'; // import paginationView
 
 import 'core-js/stable'; // polyfill everything else (async await) (Parcel 2)
 import 'regenerator-runtime/runtime'; // polyfill async await (Parcel 2) Run on old browsers
@@ -17,7 +18,7 @@ if (module.hot) {
 const controlRecipes = async function () {
   // async function
   try {
-    recipeView.renderSpinner(); // add spiner before loarding
+    //recipeView.renderSpinner(); // add spiner before loarding
 
     const id = window.location.hash.slice(1); // get id from url
     if (!id) return; // return if no id
@@ -47,7 +48,10 @@ const controlSearchResults = async function () {
 
     // 03) Render results
     //console.log(model.state.search.results); // log search results
-    resultsView.render(model.state.search.results); // render search results
+    resultsView.render(model.getSearchResultsPage(2)); // render search results
+
+    // 04) Render initial pagination buttons
+    paginationView.render(model.state.search); // render pagination buttons
   } catch (error) {
     console.log(error); // log error
   }

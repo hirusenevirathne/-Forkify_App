@@ -12,6 +12,7 @@ export default class Views {
     this._clear(); // clear recipe container
     this._perentElement.insertAdjacentHTML('afterbegin', markup); // insert markup as html string
   }
+
   _clear() {
     this._perentElement.innerHTML = ''; // clear parent element
   }
@@ -41,7 +42,8 @@ export default class Views {
   }
 
   renderMessage(massage = this._message) {
-    const markup = `<div class="message">
+    const markup = `
+    <div class="message">
     <div>
         <svg>
            <use href="${icons}#icon-smile"></use>

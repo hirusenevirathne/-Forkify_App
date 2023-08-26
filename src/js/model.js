@@ -1,5 +1,5 @@
 import 'regenerator-runtime/runtime'; // polyfill async await (Parcel 2) Run on old browsers
-import { URL_API } from './config';
+import { URL_API, RES_PER_PAGE } from './config';
 import { getJSON } from './helpers.js';
 
 export const state = {
@@ -7,6 +7,8 @@ export const state = {
   search: {
     query: '',
     results: [],
+    page: 1,
+    resultsPerPage: RES_PER_PAGE,
   },
 };
 
@@ -58,3 +60,10 @@ export const loadSearchResults = async function (query) {
   }
 };
 //loadSearchResults('pizza');
+
+export const getSearchResultsPage = function (page = state.search.page) {
+  state.search.page = page; // set page
+  const start = (page - 1) * state.search.resultsPerPage; // calculate start
+  const end = page * state.search.resultsPerPage - 1; // calculate end
+  return state.search.results.slice(start, end); // return slice
+};
