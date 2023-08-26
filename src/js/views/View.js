@@ -8,7 +8,6 @@ export default class Views {
 
     this._data = data; // set data
     const markup = this._generateMarkup(); // generate markup
-
     this._clear(); // clear recipe container
     this._perentElement.insertAdjacentHTML('afterbegin', markup); // insert markup as html string
   }
@@ -29,8 +28,9 @@ export default class Views {
   };
 
   renderError(massage = this._errorMessage) {
-    const markup = `<div class="error">
-    <div>
+    const markup = `
+    <div class="error">
+     <div>
         <svg>
            <use href="${icons}#icon-alert-triangle"></use>
          </svg>
