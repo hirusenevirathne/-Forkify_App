@@ -8,6 +8,9 @@ import 'regenerator-runtime/runtime'; // polyfill async await (Parcel 2) Run on 
 //console.log(icons);
 
 // https://forkify-api.herokuapp.com/v2
+if (module.hot) {
+  module.hot.accept();
+}
 
 ///////////////////////////////////////
 
