@@ -29,6 +29,9 @@ const controlRecipes = async function () {
 
     // 02) Rendering recipe
     recipeView.render(model.state.recipe); // render recipe
+
+    //Test
+    //controlServings();
   } catch (error) {
     // catch error
     recipeView.renderError(`${error} 💥💥💥`); // render error
@@ -66,8 +69,18 @@ const controlPagination = function (goToPage) {
   paginationView.render(model.state.search); // render pagination buttons
 };
 
+const controlServings = function (newServings) {
+  // update the recipe servings (in state)
+  model.updateServings(newServings); // update servings
+
+  // update the recipe view
+  //recipeView.render(model.state.recipe); // render recipe
+  recipeView.update(model.state.recipe); // update recipe
+};
+
 const init = function () {
   recipeView.addHandlerRender(controlRecipes); // call function to show recipe on load and hashchange
+  recipeView.addHandlerUpdateServings(controlServings); // call function to update servings
   SearchView.addHandlerSearch(controlSearchResults); // call function to show search results on submit
   paginationView.addHandlerClick(controlPagination); // call function to show search results on submit
 };
