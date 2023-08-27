@@ -13,8 +13,8 @@ export default class Views {
   }
 
   update(data) {
-    if (!data || (Array.isArray(data) && data.length === 0))
-      return this.renderError(); // return if no data or empty array
+    //if (!data || (Array.isArray(data) && data.length === 0))
+    //return this.renderError(); // return if no data or empty array
 
     this._data = data; // set data
     const newMarkup = this._generateMarkup(); // generate new markup

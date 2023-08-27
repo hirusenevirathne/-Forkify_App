@@ -23,6 +23,9 @@ const controlRecipes = async function () {
     const id = window.location.hash.slice(1); // get id from url
     if (!id) return; // return if no id
 
+    // 00) Update results view to mark selected search result
+    resultsView.update(model.getSearchResultsPage());
+
     // 01) Loading recipe
     await model.loadRecipe(id); // load recipe
     //const { recipe } = model.state; // destructure recipe
