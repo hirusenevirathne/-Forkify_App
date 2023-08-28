@@ -23,12 +23,18 @@ const controlRecipes = async function () {
     const id = window.location.hash.slice(1); // get id from url
     if (!id) return; // return if no id
 
+    // 00) Update results view to mark selected search result
+    resultsView.update(model.getSearchResultsPage());
+
     // 01) Loading recipe
     await model.loadRecipe(id); // load recipe
     //const { recipe } = model.state; // destructure recipe
 
     // 02) Rendering recipe
     recipeView.render(model.state.recipe); // render recipe
+
+    //Test
+    //controlServings();
   } catch (error) {
     // catch error
     recipeView.renderError(`${error} 💥💥💥`); // render error
@@ -48,7 +54,7 @@ const controlSearchResults = async function () {
 
     // 03) Render results
     //console.log(model.state.search.results); // log search results
-    resultsView.render(model.getSearchResultsPage()); // render search results
+    resultsView.render(model.getSearchResultsPage(2)); // render search results
 
     // 04) Render initial pagination buttons
     paginationView.render(model.state.search); // render pagination buttons
@@ -66,9 +72,18 @@ const controlPagination = function (goToPage) {
   paginationView.render(model.state.search); // render pagination buttons
 };
 
+const controlServings = function (newServings) {
+  // update the recipe servings (in state)
+  model.updateServings(newServings); // update servings
+
+  // update the recipe view
+  //recipeView.render(model.state.recipe); // render recipe
+  recipeView.update(model.state.recipe); // update recipe
+};
+
 const init = function () {
   recipeView.addHandlerRender(controlRecipes); // call function to show recipe on load and hashchange
+  recipeView.addHandlerUpdateServings(controlServings); // call function to update servings
   SearchView.addHandlerSearch(controlSearchResults); // call function to show search results on submit
-  paginationView.addHandlerClick(controlPagination); // call function to show search results on submit
 };
 init();
