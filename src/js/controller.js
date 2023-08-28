@@ -2,26 +2,28 @@ import * as model from './model.js'; // import model
 import recipeView from './views/recipeView.js'; // import recipeView
 import SearchView from './views/searchView.js'; // import searchView
 import resultsView from './views/resultsView.js'; // import resultsView
+import bookmakrsView from './views/bookmakrsView.js'; // import bookmakrsView
 import paginationView from './views/paginationView.js'; // import paginationView
 
 import 'core-js/stable'; // polyfill everything else (async await) (Parcel 2)
 import 'regenerator-runtime/runtime'; // polyfill async await (Parcel 2) Run on old browsers
+import { async } from 'regenerator-runtime'; // polyfill async await (Parcel 2) Run on old browsers
 //console.log(icons);
 
 // https://forkify-api.herokuapp.com/v2
-if (module.hot) {
-  module.hot.accept();
-}
+
+// if (module.hot) {
+//   module.hot.accept();
+// }
 
 ///////////////////////////////////////
 
 const controlRecipes = async function () {
   // async function
   try {
-    //recipeView.renderSpinner(); // add spiner before loarding
-
     const id = window.location.hash.slice(1); // get id from url
     if (!id) return; // return if no id
+    recipeView.renderSpinner(); // render spinner
 
     // 00) Update results view to mark selected search result
     resultsView.update(model.getSearchResultsPage());
@@ -54,7 +56,7 @@ const controlSearchResults = async function () {
 
     // 03) Render results
     //console.log(model.state.search.results); // log search results
-    resultsView.render(model.getSearchResultsPage(2)); // render search results
+    resultsView.render(model.getSearchResultsPage()); // render search results
 
     // 04) Render initial pagination buttons
     paginationView.render(model.state.search); // render pagination buttons
@@ -81,9 +83,24 @@ const controlServings = function (newServings) {
   recipeView.update(model.state.recipe); // update recipe
 };
 
+const controlAddBookmark = function () {
+  // add/remove bookmark
+  if (!model.state.recipe.bookmarked)
+    model.addBookmark(model.state.recipe); // add bookmark
+  else model.deleteBookmark(model.state.recipe.id); // delete bookmark
+
+  // update recipe view
+  recipeView.update(model.state.recipe); // update recipe
+
+  // render bookmarks
+  bookmakrsView.render(model.state.bookmarks); // render bookmarks
+};
+
 const init = function () {
   recipeView.addHandlerRender(controlRecipes); // call function to show recipe on load and hashchange
   recipeView.addHandlerUpdateServings(controlServings); // call function to update servings
+  //recipeView.addHandlerAddBookmark(controlAddBookmark); // call function to add/remove bookmark
   SearchView.addHandlerSearch(controlSearchResults); // call function to show search results on submit
+  paginationView.addHandlerClick(controlPagination); // call function to show search results on submit
 };
 init();

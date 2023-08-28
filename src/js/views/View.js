@@ -1,13 +1,15 @@
 import icons from 'url:../../img/icons.svg'; // Parcel 2
 
-export default class Views {
+export default class View {
   _data; // declare data
-  render(data) {
+  render(data, render = true) {
     if (!data || (Array.isArray(data) && data.length === 0))
       return this.renderError(); // return if no data or empty array
 
     this._data = data; // set data
     const markup = this._generateMarkup(); // generate markup
+
+    if (!render) return markup; // return markup if render is false
 
     this._clear(); // clear recipe container
     this._perentElement.insertAdjacentHTML('afterbegin', markup); // insert markup as html string
