@@ -81,7 +81,7 @@ const controlServings = function (newServings) {
   recipeView.update(model.state.recipe); // update recipe
 };
 
-const controlBookmark = function () {
+const controlAddBookmark = function () {
   if (!model.state.recipe.bookmarked) {
     model.addBookmark(model.state.recipe);
   } else {
@@ -93,7 +93,7 @@ const controlBookmark = function () {
 const init = function () {
   recipeView.addHandlerRender(controlRecipes); // call function to show recipe on load and hashchange
   recipeView.addHandlerUpdateServings(controlServings); // call function to update servings
-  recipeView.addHandlerAddBookmark(controlBookmark);
+  recipeView.addHandlerAddBookmark(controlAddBookmark);
   SearchView.addHandlerSearch(controlSearchResults); // call function to show search results on submit
   paginationView.addHandlerClick(controlPagination); // call function to show search results on submit
 };
