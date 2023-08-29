@@ -1,4 +1,4 @@
-import Views from './View.js';
+import View from './View.js';
 import previewView from './previewView.js'; // import previewView
 import icons from 'url:../../img/icons.svg'; // Parcel 2
 
@@ -17,4 +17,5 @@ class BookmarksView extends View {
       .join('');
   }
 }
+
 export default new BookmarksView(); // export instance of class

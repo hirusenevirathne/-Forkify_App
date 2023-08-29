@@ -22,10 +22,17 @@ class RecipeView extends View {
     });
   }
 
+  addHandlerAddBookmark(handler) {
+    this._parentElement.addEventListener('click', function (e) {
+      const btn = e.target.closest('.btn--bookmark');
+      if (!btn) return;
+      handler();
+    });
+  }
+
   _generateMarkup() {
-    console.log('_generateMarkup Run');
     return `
-  <figure class="recipe__fig">
+    <figure class="recipe__fig">
     <img src="${this._data.image}" alt="${
       this._data.title
     }" class="recipe__img" />
@@ -78,7 +85,9 @@ class RecipeView extends View {
     </div>
     <button class="btn--round btn--bookmark">
       <svg class="">
-        <use href="${icons}#icon-bookmark"></use>
+        <use href="${icons}#icon-bookmark${
+      this._data.bookmarked ? '-fill' : ''
+    }"></use>
       </svg>
     </button>
   </div>
@@ -86,12 +95,7 @@ class RecipeView extends View {
   <div class="recipe__ingredients">
     <h2 class="heading--2">Recipe ingredients</h2>
     <ul class="recipe__ingredient-list">
-      ${
-        this._data.ingredients.map(this._generateMarkupIngredient).join('') // map ingredients
-      }
-
-      
-    </ul>
+      ${this._data.ingredients.map(this._generateMarkupIngredient).join('')}
   </div>
 
   <div class="recipe__directions">
@@ -105,12 +109,12 @@ class RecipeView extends View {
     </p>
     <a
       class="btn--small recipe__btn"
-      href="${this._data.source_url}"
+      href="${this._data.sourceUrl}"
       target="_blank"
     >
       <span>Directions</span>
       <svg class="search__icon">
-        <use href="src/img/icons.svg#icon-arrow-right"></use>
+        <use href="${icons}#icon-arrow-right"></use>
       </svg>
     </a>
   </div>
@@ -118,19 +122,20 @@ class RecipeView extends View {
   }
   _generateMarkupIngredient(ing) {
     return `
-  <li class="recipe__ingredient">
-    <svg class="recipe__icon">
-      <use href="${icons}#icon-check"></use>
-    </svg>
-    <div class="recipe__quantity">${
-      ing.quantity ? new Fraction(ing.quantity).toString() : ''
-    }</div>
-    <div class="recipe__description">
-      <span class="recipe__unit">${ing.unit}</span>
-      ${ing.description}
-    </div>
-  </li>
-      `;
+    <li class="recipe__ingredient">
+      <svg class="recipe__icon">
+        <use href="${icons}#icon-check"></use>
+      </svg>
+      <div class="recipe__quantity">${
+        ing.quantity ? new Fraction(ing.quantity).toString() : ''
+      }</div>
+      <div class="recipe__description">
+        <span class="recipe__unit">${ing.unit}</span>
+        ${ing.description}
+      </div>
+    </li>
+  `;
   }
 }
-export default new RecipeView(); // export instance of class
+
+export default new RecipeView();

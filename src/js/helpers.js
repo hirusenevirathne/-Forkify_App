@@ -26,8 +26,9 @@ export const AJAX = async function (url, uploadData = undefined) {
 
     // Fetch API
     // 01) Loading recipe
-    const res = await Promise.race([fetch(url), timeout(TIMEOUT_SEC)]); // fetch data and time out
+    const res = await Promise.race([fetchPro, timeout(TIMEOUT_SEC)]); // fetch data and time out
     const data = await res.json(); // convert to json
+
     if (!res.ok) throw new Error(`${data.message} (${res.status})`); // throw error if not ok
     return data; // return data
   } catch (err) {
