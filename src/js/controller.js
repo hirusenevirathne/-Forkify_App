@@ -4,6 +4,7 @@ import SearchView from './views/searchView.js'; // import searchView
 import resultsView from './views/resultsView.js'; // import resultsView
 import bookmakrsView from './views/bookmakrsView.js'; // import bookmakrsView
 import paginationView from './views/paginationView.js'; // import paginationView
+import addRecipieView from './views/addRecipieView.js'; // import addRecipieView
 
 import 'core-js/stable'; // polyfill everything else (async await) (Parcel 2)
 import 'regenerator-runtime/runtime'; // polyfill async await (Parcel 2) Run on old browsers
@@ -104,6 +105,12 @@ const controlBookmarks = function () {
   bookmakrsView.render(model.state.bookmarks); // render bookmarks
 };
 
+const controlAddRecipe = async function (newRecipe) {
+  console.log(newRecipe); // log new recipe
+
+  // upload new recipe data
+};
+
 const init = function () {
   bookmakrsView.addHandlerRender(controlBookmarks); // call function to show bookmarks on load
   recipeView.addHandlerRender(controlRecipes); // call function to show recipe on load and hashchange
@@ -111,5 +118,6 @@ const init = function () {
   //recipeView.addHandlerAddBookmark(controlAddBookmark); // call function to add/remove bookmark
   SearchView.addHandlerSearch(controlSearchResults); // call function to show search results on submit
   paginationView.addHandlerClick(controlPagination); // call function to show search results on submit
+  addRecipieView.addHandlerUpload(controlAddRecipe); // call function to show search results on submit
 };
 init();
