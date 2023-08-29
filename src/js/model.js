@@ -1,6 +1,7 @@
 import 'regenerator-runtime/runtime'; // polyfill async await (Parcel 2) Run on old browsers
 import { URL_API, RES_PER_PAGE, KEY } from './config';
-import { getJSON, sendJSON } from './helpers.js';
+//import { AJAX, sendJSON } from './helpers.js';
+import { AJAX } from './helpers.js';
 import { startsWith } from 'core-js/core/string';
 import { entries } from 'core-js/core/array';
 
@@ -27,13 +28,13 @@ const createRecipeObject = function (data) {
     servings: recipe.servings,
     cookingTime: recipe.cooking_time,
     ingredients: recipe.ingredients,
-    ...(recipe.key && { key: recipe.key }), // add key if it exists
+    ...(recipe.key && { key: recipe.key }), // add key if it exists (optional chaining)
   };
 };
 
 export const loadRecipe = async function (id) {
   try {
-    const data = await getJSON(`${URL_API}/${id}`); // get data
+    const data = await AJAX(`${URL_API}/${id}?key=${KEY}`); // get data
     //console.log(data);
     state.recipe = data.data.recipe; // set recipe
 
@@ -53,7 +54,7 @@ export const loadRecipe = async function (id) {
 export const loadSearchResults = async function (query) {
   try {
     state.search.query = query; // set query
-    const data = await getJSON(`${URL_API}?search=${query}`); // get data
+    const data = await AJAX(`${URL_API}?search=${query}&key=${KEY}`); // get data
     //console.log(data);
 
     state.search.results = data.data.recipes.map(rec => {
@@ -62,6 +63,7 @@ export const loadSearchResults = async function (query) {
         title: rec.title,
         publisher: rec.publisher,
         image: rec.image_url,
+        ...(rec.key && { key: rec.key }), // add key if it exists (optional chaining)
       };
     });
     state.search.page = 1; // set page
@@ -128,10 +130,7 @@ export const uploadRecipe = async function (newRecipe) {
     const ingredients = Object.entries(newRecipe)
       .filter(entry => entry[0], startsWith('ingredient') && entry[1] !== '')
       .map(ing => {
-        const ingArr = ing[1]
-          .replaceAll(' ', '')
-          .split(',')
-          .map(el => el.trim()); // create array from string
+        const ingArr = ing[1].split(',').map(el => el.trim()); // create array from string
 
         if (ingArr.length !== 3)
           throw new Error(
@@ -155,7 +154,7 @@ export const uploadRecipe = async function (newRecipe) {
     };
     //console.log(recipe);
     console.log(ingredients);
-    const data = await sendJSON(`${URL_API}?key=${API_KEY}`, recipe); // send data
+    const data = await AJAX(`${URL_API}?key=${KEY}`, recipe); // send data
     state.recipe = createRecipeObject(data); // create recipe object
     addBookmark(state.recipe); // add bookmark
   } catch (err) {
